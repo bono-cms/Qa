@@ -1,6 +1,6 @@
 <?php
 
-use Krystal\Form\Widget\CheckBoxWidget;
+use Krystal\Form\Element;
 
 ?>
 
@@ -16,14 +16,11 @@ use Krystal\Form\Widget\CheckBoxWidget;
 		 <li class="dropdown-header"><?php $this->show('Actions'); ?></li>
 		 
 		 <?php if (!empty($pairs)):?>
-		 
 		 <li><a href="#" data-button="save-changes"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save changes'); ?></a></li>
 		 <li><a href="#" data-button="remove-selected" data-button="remove-selected"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a></li>
 		 <?php else: ?>
-		 
 		 <li class="disabled"><a><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save changes'); ?></a></li>
 		 <li class="disabled"><a><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a></li>
-		 
 		 <?php endif; ?>
 	  </ul>
 	</div>
@@ -64,7 +61,7 @@ use Krystal\Form\Widget\CheckBoxWidget;
 					<td class="text-center"><?php echo $qa->getAnswerer(); ?></td>
 					<td class="text-center"><?php echo $qa->getIP(); ?></td>
 					<td class="text-center">
-						<?php echo CheckBoxWidget::render(array('name' => sprintf('published[%s]', $qa->getId())), $qa->getPublished()); ?>
+                        <?php echo Element::checkbox(sprintf('published[%s]', $qa->getId()), $qa->getPublished()); ?>
 					</td>
 					<td class="text-center">
 						<a data-button="edit" href="<?php echo $this->url('Qa:Admin:Edit@indexAction', $qa->getId()); ?>" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit this pair'); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
@@ -72,10 +69,8 @@ use Krystal\Form\Widget\CheckBoxWidget;
 					</td>
 				</tr>
 				<?php endforeach; ?>
-				
 			</tbody>
 			<?php endif; ?>
-			
 		</table>
 		
 		<?php if (empty($pairs)): ?>
@@ -83,7 +78,6 @@ use Krystal\Form\Widget\CheckBoxWidget;
 			<h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No pairs'); ?></h2>
 		</div>
 		<?php endif; ?>
-		
 	</div>
 </form>
 

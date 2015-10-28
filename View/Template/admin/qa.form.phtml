@@ -1,86 +1,78 @@
 <?php
 
-use Krystal\Form\Widget\CheckBoxWidget;
+use Krystal\Form\Element;
 
 ?>
 
 <form>
 	<div class="well clearfix">
-		
-		<input type="hidden" name="qa[id]" value="<?php echo $qa->getId() ;?>" />
-		
+        
+        <?php echo Element::hidden('qa[id]', $qa->getId()); ?>
+        
 		<div class="form-group clearfix">
 			<label class="col-lg-2 control-label"><?php $this->show('Question'); ?></label>
 			<div class="col-lg-10">
 				<div class="input-group">
-					<input type="text" name="qa[question]" class="form-control" placeholder="<?php $this->show('Type the question'); ?>" value="<?php echo $qa->getQuestion(); ?>" />
+                    <?php echo Element::text('qa[question]', $qa->getQuestion(), array('class' => 'form-control', 'placeholder' => $this->translate('Type the question'))); ?>
 					<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
 				</div>
 			</div>
 		</div>
-		
 		
 		<div class="form-group clearfix">
 			<label class="col-lg-2 control-label"><?php $this->show('Questioner'); ?></label>
 			<div class="col-lg-10">
 				<div class="input-group">
-					<input type="text" name="qa[questioner]" class="form-control" placeholder="<?php $this->show('Person who asked this question'); ?>" value="<?php echo $qa->getQuestioner(); ?>" />
-					<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                    <?php echo Element::text('qa[questioner]', $qa->getQuestioner(), array('class' => 'form-control', 'placeholder' => $this->translate('Person who asked this question'))); ?>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
 				</div>
 			</div>
 		</div>
-		
 		
 		<div class="form-group clearfix">
 			<label class="col-lg-2 control-label"><?php $this->show('Answerer'); ?></label>
 			<div class="col-lg-10">
 				<div class="input-group">
-					<input type="text" name="qa[answerer]" class="form-control" placeholder="<?php $this->show('Person who answered this question'); ?>" value="<?php echo $qa->getAnswerer(); ?>" />
+                    <?php echo Element::text('qa[answerer]', $qa->getAnswerer(), array('class' => 'form-control', 'placeholder' => $this->translate('Person who answered this question'))); ?>
 					<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
 				</div>
 			</div>
 		</div>
 		
-		
 		<div class="form-group clearfix">
 			<label class="col-lg-2 control-label"><?php $this->show('Answer'); ?></label>
 			<div class="col-lg-10">
-				<textarea name="qa[answer]"><?php echo $qa->getAnswer(); ?></textarea>
+                <?php echo Element::textarea('qa[answer]', $qa->getAnswer()); ?>
 			</div>
 		</div>
 		
-		
 		<div class="options">
-			
 			<div class="form-group clearfix">
 				<label class="col-lg-2 control-label"><?php $this->show('Date asked'); ?></label>
 				<div class="col-lg-10">
 					<div class="input-group date">
-						<input type="text" name="qa[date_asked]" class="form-control" placeholder="<?php $this->show('Date of the question'); ?>" value="<?php echo date($timeFormat, $qa->getTimestampAsked()); ?>" />
+                        <?php echo Element::text('qa[date_asked]', date($timeFormat, $qa->getTimestampAsked()), array('class' => 'form-control', 'placeholder' => $this->translate('Date of the question'))); ?>
 						<span class="input-group-addon"><i class="glyphicon glyphicon-calendar" data-toggle="tooltip" title="<?php $this->show('Change the date'); ?>"></i></span>
 					</div>
 				</div>
 			</div>
-			
 			
 			<div class="form-group clearfix">
 				<label class="col-lg-2 control-label"><?php $this->show('Date answered'); ?></label>
 				<div class="col-lg-10">
 					<div class="input-group date">
-						<input type="text" name="qa[date_answered]" class="form-control" placeholder="<?php $this->show('Date of the answer'); ?>" value="<?php echo date($timeFormat, $qa->getTimestampAnswered()); ?>" />
+                        <?php echo Element::text('qa[date_answered]', date($timeFormat, $qa->getTimestampAnswered()), array('class' => 'form-control', 'placeholder' => $this->translate('Date of the answer'))); ?>
 						<span class="input-group-addon"><i class="glyphicon glyphicon-calendar" data-toggle="tooltip" title="<?php $this->show('Change the date'); ?>"></i></span>
 					</div>
 				</div>
 			</div>
 			
-			
 			<div class="form-group clearfix">
 				<label class="col-lg-2 control-label"><?php $this->show('Published'); ?></label>
 				<div class="col-lg-10">
-					<?php echo CheckBoxWidget::render(array('name' => 'qa[published]', 'class' => 'form-control'), $qa->getPublished()); ?>
+                    <?php echo Element::checkbox('qa[published]', $qa->getPublished(), array('class' => 'form-control')); ?>
 				</div>
 			</div>
-			
 		</div>
 	</div>
 	
