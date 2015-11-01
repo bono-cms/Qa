@@ -16,14 +16,14 @@ Use Qa\Service\QaManager;
 
 final class Module extends AbstractCmsModule
 {
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getServiceProviders()
-	{
-		return array(
-			'qaManager' => new QaManager($this->getMapper('/Qa/Storage/MySQL/QaMapper'), $this->getHistoryManager()),
-			'configManager' => $this->getConfigService()
-		);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function getServiceProviders()
+    {
+        return array(
+            'qaManager' => new QaManager($this->getMapper('/Qa/Storage/MySQL/QaMapper'), $this->getHistoryManager()),
+            'configManager' => $this->getConfigService()
+        );
+    }
 }

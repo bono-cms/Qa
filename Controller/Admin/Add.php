@@ -15,48 +15,48 @@ use Krystal\Stdlib\VirtualEntity;
 
 final class Add extends AbstractQa
 {
-	/**
-	 * Shows adding form
-	 * 
-	 * @return string
-	 */
-	public function indexAction()
-	{
-		$this->loadSharedPlugins();
+    /**
+     * Shows adding form
+     * 
+     * @return string
+     */
+    public function indexAction()
+    {
+        $this->loadSharedPlugins();
 
-		$qa = new VirtualEntity();
-		$qa->setTimestampAsked(time())
-		   ->setTimestampAnswered(time())
-		   ->setPublished(true);
+        $qa = new VirtualEntity();
+        $qa->setTimestampAsked(time())
+           ->setTimestampAnswered(time())
+           ->setPublished(true);
 
-		return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
-			'title' => 'Add a pair',
-			'qa' => $qa
-		)));
-	}
+        return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+            'title' => 'Add a pair',
+            'qa' => $qa
+        )));
+    }
 
-	/**
-	 * Adds a QA
-	 * 
-	 * @return string
-	 */
-	public function addAction()
-	{
-		$formValidator = $this->getValidator($this->request->getPost('qa'));
+    /**
+     * Adds a QA
+     * 
+     * @return string
+     */
+    public function addAction()
+    {
+        $formValidator = $this->getValidator($this->request->getPost('qa'));
 
-		if ($formValidator->isValid()) {
+        if ($formValidator->isValid()) {
 
-			$qaManager = $this->getQaManager();
-			$data = array_merge($this->request->getPost('qa'), array('ip' => $this->request->getClientIp()));
+            $qaManager = $this->getQaManager();
+            $data = array_merge($this->request->getPost('qa'), array('ip' => $this->request->getClientIp()));
 
-			if ($qaManager->add($data)) {
+            if ($qaManager->add($data)) {
 
-				$this->flashBag->set('success', 'A pair has been added successfully');
-				return $qaManager->getLastId();
-			}
+                $this->flashBag->set('success', 'A pair has been added successfully');
+                return $qaManager->getLastId();
+            }
 
-		} else {
-			return $formValidator->getErrors();
-		}
-	}
+        } else {
+            return $formValidator->getErrors();
+        }
+    }
 }
