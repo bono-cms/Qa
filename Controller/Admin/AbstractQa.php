@@ -97,29 +97,15 @@ abstract class AbstractQa extends AbstractController
     }
 
     /**
-     * Returns shared variables for Add and Edit controllers
+     * Loads breadcrumbs
      * 
-     * @param array $overrides
-     * @return array
+     * @param string $title
+     * @return void
      */
-    final protected function getWithSharedVars(array $overrides)
+    final protected function loadBreadcrumbs($title)
     {
-        $this->view->getBreadcrumbBag()->add(array(
-            array(
-                'link' => 'Qa:Admin:Browser@indexAction',
-                'name' => 'Questions and Answers'
-            ),
-            array(
-                'link' => '#',
-                'name' => $overrides['title']
-            )
-        ));
-
-        $vars = array(
-            'timeFormat' => $this->getQaManager()->getTimeFormat()
-        );
-
-        return array_replace_recursive($vars, $overrides);
+        $this->view->getBreadcrumbBag()->addOne('Questions and Answers', 'Qa:Admin:Browser@indexAction')
+                                       ->addOne($title);
     }
 
     /**
@@ -130,7 +116,7 @@ abstract class AbstractQa extends AbstractController
     final protected function loadSharedPlugins()
     {
         $this->view->getPluginBag()
-                   ->appendScript($this->getWithAssetPath('/admin/qa.form.js'))
+                   ->appendScript('@Qa/admin/qa.form.js')
                    ->load(array($this->getWysiwygPluginName(), 'datepicker'));
     }
 }

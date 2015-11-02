@@ -24,7 +24,6 @@ final class Browser extends AbstractController
     public function indexAction($pageNumber = 1)
     {
         $this->loadPlugins();
-
         $qaManager = $this->getQaManager();
 
         $paginator = $qaManager->getPaginator();
@@ -55,18 +54,13 @@ final class Browser extends AbstractController
     private function loadPlugins()
     {
         $this->view->getPluginBag()
-                   ->appendScript($this->getWithAssetPath('/admin/browser.js'));
+                   ->appendScript('@Qa/admin/browser.js');
 
-        $this->view->getBreadcrumbBag()->add(array(
-            array(
-                'link' => '#',
-                'name' => 'Questions and Answers'
-            )
-        ));
+        $this->view->getBreadcrumbBag()->addOne('Questions and Answers');
     }
 
     /**
-     * Removes a pair
+     * Removes a pair by its associated id
      * 
      * @return string
      */
@@ -74,9 +68,7 @@ final class Browser extends AbstractController
     {
         if ($this->request->hasPost('id')) {
             $id = $this->request->getPost('id');
-
             if ($this->getQaManager()->deleteById($id)) {
-
                 $this->flashBag->set('success', 'Selected pair has been removed successfully');
                 return '1';
             }
@@ -84,14 +76,13 @@ final class Browser extends AbstractController
     }
 
     /**
-     * Removes posts by their associated ids
+     * Remove pairs by their associated ids
      * 
      * @return string
      */
     public function deleteSelectedAction()
     {
         if ($this->request->hasPost('toDelete')) {
-
             $ids = array_keys($this->request->getPost('toDelete'));
             $this->getQaManager()->deleteByIds($ids);
 
@@ -115,7 +106,6 @@ final class Browser extends AbstractController
 
             $this->getQaManager()->updatePublished($published);
             $this->flashBag->set('success', 'Settings have been updated successfully');
-
             return '1';
         }
     }

@@ -25,11 +25,13 @@ final class Edit extends AbstractQa
 
         if ($qa !== false) {
             $this->loadSharedPlugins();
+            $this->loadBreadcrumbs('Edit the pair');
 
-            return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+            return $this->view->render($this->getTemplatePath(), array(
+                'timeFormat' => $this->getQaManager()->getTimeFormat(),
                 'title' => 'Edit the pair',
                 'qa' => $qa
-            )));
+            ));
 
         } else {
             return false;
@@ -46,9 +48,7 @@ final class Edit extends AbstractQa
         $formValidator = $this->getValidator($this->request->getPost('qa'));
 
         if ($formValidator->isValid()) {
-
             if ($this->getQaManager()->update($this->request->getPost('qa'))) {
-
                 $this->flashBag->set('success', 'The pair has been updated successfully');
                 return '1';
             }

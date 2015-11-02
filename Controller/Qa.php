@@ -45,13 +45,11 @@ final class Qa extends AbstractController
      */
     private function showAction($id, $pageNumber, $code, $slug)
     {
-        $pageManager = $this->getService('Pages', 'pageManager');
-        $page = $pageManager->fetchById($id);
+        $page = $this->getService('Pages', 'pageManager')->fetchById($id);
 
         if ($page !== false) {
-
             $this->loadSitePlugins();
-            $this->view->getBreadcrumbBag()->add($pageManager->getBreadcrumbs($page));
+            $this->view->getBreadcrumbBag()->addOne($page->getTitle());
 
             $qaManager = $this->getModuleService('qaManager');
             $pairs = $qaManager->fetchAllPublishedByPage($pageNumber, $this->getConfig()->getPerPageCount());
@@ -67,7 +65,6 @@ final class Qa extends AbstractController
             ));
 
         } else {
-
             return false;
         }
     }
@@ -88,14 +85,12 @@ final class Qa extends AbstractController
             $qaManager = $this->getModuleService('qaManager');
 
             if ($qaManager->send($data)) {
-
                 $this->sendMessage($input);
                 $this->flashBag->set('success', 'Your question has been sent! Thank you!');
                 return '1';
             }
 
         } else {
-
             return $formValidator->getErrors();
         }
     }

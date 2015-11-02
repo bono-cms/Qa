@@ -23,16 +23,18 @@ final class Add extends AbstractQa
     public function indexAction()
     {
         $this->loadSharedPlugins();
+        $this->loadBreadcrumbs('Add a pair');
 
         $qa = new VirtualEntity();
         $qa->setTimestampAsked(time())
            ->setTimestampAnswered(time())
            ->setPublished(true);
 
-        return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+        return $this->view->render($this->getTemplatePath(), array(
+            'timeFormat' => $this->getQaManager()->getTimeFormat(),
             'title' => 'Add a pair',
             'qa' => $qa
-        )));
+        ));
     }
 
     /**
@@ -45,12 +47,10 @@ final class Add extends AbstractQa
         $formValidator = $this->getValidator($this->request->getPost('qa'));
 
         if ($formValidator->isValid()) {
-
             $qaManager = $this->getQaManager();
             $data = array_merge($this->request->getPost('qa'), array('ip' => $this->request->getClientIp()));
 
             if ($qaManager->add($data)) {
-
                 $this->flashBag->set('success', 'A pair has been added successfully');
                 return $qaManager->getLastId();
             }
