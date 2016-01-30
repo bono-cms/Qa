@@ -19,6 +19,11 @@ final class Config extends AbstractConfigController
     /**
      * {@inheritDoc}
      */
+    protected $parent = 'Qa:Admin:Qa@gridAction';
+
+    /**
+     * {@inheritDoc}
+     */
     protected function getValidationRules()
     {
         return array(

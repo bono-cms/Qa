@@ -10,7 +10,6 @@
  */
 
 return array(
-    
     '/module/qa' => array(
         'controller' => 'Qa@indexAction'
     ),
@@ -25,43 +24,33 @@ return array(
     ),
     
     '/admin/module/qa' => array(
-        'controller' => 'Admin:Browser@indexAction'
+        'controller' => 'Admin:Qa@gridAction'
     ),
     
     '/admin/module/qa/page/(:var)' => array(
-        'controller' => 'Admin:Browser@indexAction'
+        'controller' => 'Admin:Qa@gridAction'
     ),
     
-    '/admin/module/qa/delete.ajax' => array(
-        'controller' => 'Admin:Browser@deleteAction',
+    '/admin/module/qa/delete' => array(
+        'controller' => 'Admin:Qa@deleteAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/qa/delete-selected.ajax' => array(
-        'controller' => 'Admin:Browser@deleteSelectedAction',
-        'disallow' => array('guest')
-    ),
-    
-    '/admin/module/qa/save.ajax' => array(
-        'controller' => 'Admin:Browser@saveAction',
+    '/admin/module/qa/tweak' => array(
+        'controller' => 'Admin:Qa@tweakAction',
         'disallow' => array('guest')
     ),
     
     '/admin/module/qa/add' => array(
-        'controller' => 'Admin:Add@indexAction'
-    ),
-    
-    '/admin/module/qa/add.ajax' => array(
-        'controller' => 'Admin:Add@addAction',
-        'disallow' => array('guest')
+        'controller' => 'Admin:Qa@addAction'
     ),
     
     '/admin/module/qa/edit/(:var)'  =>  array(
-        'controller' => 'Admin:Edit@indexAction'
+        'controller' => 'Admin:Qa@editAction'
     ),
     
-    '/admin/module/qa/edit.ajax' => array(
-        'controller' => 'Admin:Edit@updateAction',
+    '/admin/module/qa/save' => array(
+        'controller' => 'Admin:Qa@saveAction',
         'disallow' => array('guest')
     )
 );
