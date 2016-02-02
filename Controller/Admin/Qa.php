@@ -18,66 +18,6 @@ use Krystal\Validate\Pattern;
 final class Qa extends AbstractController
 {
     /**
-     * Returns prepared and configured validator's instance
-     * 
-     * @param array $input Raw input data
-     * @return \Krystal\Validate\ValidatorChain
-     */
-    private function getValidator(array $input)
-    {
-        return $this->validatorFactory->build(array(
-            'input' => array(
-                'source' => $input,
-                'definition' => array(
-                    'question' => array(
-                        'required' => true,
-                        'rules' => array(
-                            'NotEmpty' => array(
-                                'message' => 'Question is required'
-                            ),
-                            'NoTags' => array(
-                                'message' => 'Question can not contain HTML tags'
-                            )
-                        )
-                    ),
-                    'questioner' => array(
-                        'required' => true,
-                        'rules' => array(
-                            'NotEmpty' => array(
-                                'message' => 'Questioner is required'
-                            ),
-                            'NoTags' => array(
-                                'message' => 'Questioner can not contain HTML tags'
-                            )
-                        )
-                    ),
-                    'answerer' => array(
-                        'required' => true,
-                        'rules' => array(
-                            'NotEmpty' => array(
-                                'message' => 'Answerer is required'
-                            ),
-                            'NoTags' => array(
-                                'message' => 'Answerer can not contain HTML tags'
-                            )
-                        )
-                    ),
-                    'answer' => array(
-                        'required' => true,
-                        'rules' => array(
-                            'NotEmpty' => array(
-                                'message' => 'Answer is required'
-                            )
-                        )
-                    ),
-                    'date_asked' => new Pattern\DateFormat('m/d/Y'),
-                    'date_answered' => new Pattern\DateFormat('m/d/Y')
-                )
-            )
-        ));
-    }
-
-    /**
      * Returns Qa manager
      * 
      * @return \Qa\Service\QaManager 
@@ -194,24 +134,7 @@ final class Qa extends AbstractController
      */
     public function deleteAction()
     {
-        // Batch removal
-        if ($this->request->hasPost('toDelete')) {
-            $ids = array_keys($this->request->getPost('toDelete'));
-            $this->getQaManager()->deleteByIds($ids);
-
-            $this->flashBag->set('success', 'Selected pairs have been removed successfully');
-        } else {
-            $this->flashBag->set('warning', 'You should select at least one pair to remove');
-        }
-
-        if ($this->request->hasPost('id')) {
-            $id = $this->request->getPost('id');
-            if ($this->getQaManager()->deleteById($id)) {
-                $this->flashBag->set('success', 'Selected pair has been removed successfully');
-            }
-        }
-
-        return '1';
+        return $this->invokeRemoval('qaManager');
     }
 
     /**
@@ -222,27 +145,57 @@ final class Qa extends AbstractController
     public function saveAction()
     {
         $input = $this->request->getPost('qa');
-        $formValidator = $this->getValidator($input);
+        $data = array_merge($input, array('ip' => $this->request->getClientIp()));
 
-        if ($formValidator->isValid()) {
-            $qaManager = $this->getQaManager();
-
-            if ($input['id']) {
-                if ($qaManager->update($input)) {
-                    $this->flashBag->set('success', 'The pair has been updated successfully');
-                    return '1';
-                }
-
-            } else {
-                $data = array_merge($input, array('ip' => $this->request->getClientIp()));
-
-                if ($qaManager->add($data)) {
-                    $this->flashBag->set('success', 'A pair has been added successfully');
-                    return $qaManager->getLastId();
-                }
-            }
-        } else {
-            return $formValidator->getErrors();
-        }
+        return $this->invokeSave('qaManager', $input['id'], $data, array(
+            'input' => array(
+                'source' => $input,
+                'definition' => array(
+                    'question' => array(
+                        'required' => true,
+                        'rules' => array(
+                            'NotEmpty' => array(
+                                'message' => 'Question is required'
+                            ),
+                            'NoTags' => array(
+                                'message' => 'Question can not contain HTML tags'
+                            )
+                        )
+                    ),
+                    'questioner' => array(
+                        'required' => true,
+                        'rules' => array(
+                            'NotEmpty' => array(
+                                'message' => 'Questioner is required'
+                            ),
+                            'NoTags' => array(
+                                'message' => 'Questioner can not contain HTML tags'
+                            )
+                        )
+                    ),
+                    'answerer' => array(
+                        'required' => true,
+                        'rules' => array(
+                            'NotEmpty' => array(
+                                'message' => 'Answerer is required'
+                            ),
+                            'NoTags' => array(
+                                'message' => 'Answerer can not contain HTML tags'
+                            )
+                        )
+                    ),
+                    'answer' => array(
+                        'required' => true,
+                        'rules' => array(
+                            'NotEmpty' => array(
+                                'message' => 'Answer is required'
+                            )
+                        )
+                    ),
+                    'date_asked' => new Pattern\DateFormat('m/d/Y'),
+                    'date_answered' => new Pattern\DateFormat('m/d/Y')
+                )
+            )
+        ));
     }
 }
