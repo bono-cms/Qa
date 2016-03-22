@@ -21,7 +21,7 @@ final class QaMapper extends AbstractMapper implements QaMapperInterface
      */
     public static function getTableName()
     {
-        return 'bono_module_qa';
+        return self::getWithPrefix('bono_module_qa');
     }
 
     /**
