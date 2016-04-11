@@ -102,7 +102,7 @@ final class Qa extends AbstractController
         $qaManager = $this->getQaManager();
 
         $paginator = $qaManager->getPaginator();
-        $paginator->setUrl('/admin/module/qa/page/(:var)');
+        $paginator->setUrl($this->createUrl('Qa:Admin:Qa@gridAction', array(), 1));
 
         return $this->view->render('browser', array(
             'title' => 'Questions and Answers',
