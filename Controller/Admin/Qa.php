@@ -91,10 +91,6 @@ final class Qa extends AbstractController
      */
     public function gridAction($pageNumber = 1)
     {
-        // Load view plugins
-        $this->view->getPluginBag()
-                   ->appendScript('@Qa/admin/browser.js');
-
         // Append a breadcrumb
         $this->view->getBreadcrumbBag()
                    ->addOne('Questions and Answers');
@@ -130,11 +126,12 @@ final class Qa extends AbstractController
     /**
      * Removes a pair by its associated id
      * 
+     * @param string $id
      * @return string
      */
-    public function deleteAction()
+    public function deleteAction($id)
     {
-        return $this->invokeRemoval('qaManager');
+        return $this->invokeRemoval('qaManager', $id);
     }
 
     /**

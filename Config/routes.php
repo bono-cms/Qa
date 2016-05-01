@@ -31,7 +31,7 @@ return array(
         'controller' => 'Admin:Qa@gridAction'
     ),
     
-    '/admin/module/qa/delete' => array(
+    '/admin/module/qa/delete/(:var)' => array(
         'controller' => 'Admin:Qa@deleteAction',
         'disallow' => array('guest')
     ),
