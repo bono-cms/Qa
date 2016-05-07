@@ -14,42 +14,42 @@ return array(
         'controller' => 'Qa@indexAction'
     ),
     
-    '/admin/module/qa/config' => array(
+    '/%s/module/qa/config' => array(
         'controller' => 'Admin:Config@indexAction'
     ),
     
-    '/admin/module/qa/config.ajax' => array(
+    '/%s/module/qa/config.ajax' => array(
         'controller' => 'Admin:Config@saveAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/qa' => array(
+    '/%s/module/qa' => array(
         'controller' => 'Admin:Qa@gridAction'
     ),
     
-    '/admin/module/qa/page/(:var)' => array(
+    '/%s/module/qa/page/(:var)' => array(
         'controller' => 'Admin:Qa@gridAction'
     ),
     
-    '/admin/module/qa/delete/(:var)' => array(
+    '/%s/module/qa/delete/(:var)' => array(
         'controller' => 'Admin:Qa@deleteAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/qa/tweak' => array(
+    '/%s/module/qa/tweak' => array(
         'controller' => 'Admin:Qa@tweakAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/qa/add' => array(
+    '/%s/module/qa/add' => array(
         'controller' => 'Admin:Qa@addAction'
     ),
     
-    '/admin/module/qa/edit/(:var)'  =>  array(
+    '/%s/module/qa/edit/(:var)'  =>  array(
         'controller' => 'Admin:Qa@editAction'
     ),
     
-    '/admin/module/qa/save' => array(
+    '/%s/module/qa/save' => array(
         'controller' => 'Admin:Qa@saveAction',
         'disallow' => array('guest')
     )
