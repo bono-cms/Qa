@@ -7,10 +7,10 @@ use Krystal\Form\Element;
 
 <form data-group="qa">
 
-	<div class="well clearfix">
+	<div class="well">
         <?php echo Element::hidden('qa[id]', $qa->getId()); ?>
         
-		<div class="form-group clearfix">
+		<div class="form-group">
 			<label class="col-lg-2 control-label"><?php $this->show('Question'); ?></label>
 			<div class="col-lg-10">
 				<div class="input-group">
@@ -20,7 +20,7 @@ use Krystal\Form\Element;
 			</div>
 		</div>
 		
-		<div class="form-group clearfix">
+		<div class="form-group">
 			<label class="col-lg-2 control-label"><?php $this->show('Questioner'); ?></label>
 			<div class="col-lg-10">
 				<div class="input-group">
@@ -30,7 +30,7 @@ use Krystal\Form\Element;
 			</div>
 		</div>
 		
-		<div class="form-group clearfix">
+		<div class="form-group">
 			<label class="col-lg-2 control-label"><?php $this->show('Answerer'); ?></label>
 			<div class="col-lg-10">
 				<div class="input-group">
@@ -40,7 +40,7 @@ use Krystal\Form\Element;
 			</div>
 		</div>
 		
-		<div class="form-group clearfix">
+		<div class="form-group">
 			<label class="col-lg-2 control-label"><?php $this->show('Answer'); ?></label>
 			<div class="col-lg-10">
                 <?php echo Element::textarea('qa[answer]', $qa->getAnswer(), array('data-wysiwyg' => 'true')); ?>
@@ -48,7 +48,7 @@ use Krystal\Form\Element;
 		</div>
 		
 		<div class="options">
-			<div class="form-group clearfix">
+			<div class="form-group">
 				<label class="col-lg-2 control-label"><?php $this->show('Date asked'); ?></label>
 				<div class="col-lg-10">
 					<div class="input-group date">
@@ -58,7 +58,7 @@ use Krystal\Form\Element;
 				</div>
 			</div>
 			
-			<div class="form-group clearfix">
+			<div class="form-group">
 				<label class="col-lg-2 control-label"><?php $this->show('Date answered'); ?></label>
 				<div class="col-lg-10">
 					<div class="input-group date">
@@ -68,7 +68,7 @@ use Krystal\Form\Element;
 				</div>
 			</div>
 			
-			<div class="form-group clearfix">
+			<div class="form-group">
 				<label class="col-lg-2 control-label"><?php $this->show('Published'); ?></label>
 				<div class="col-lg-10">
                     <?php echo Element::checkbox('qa[published]', $qa->getPublished(), array('class' => 'form-control')); ?>
