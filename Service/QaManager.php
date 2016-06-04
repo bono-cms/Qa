@@ -53,18 +53,18 @@ final class QaManager extends AbstractManager implements QaManagerInterface
     protected function toEntity(array $qa)
     {
         $entity = new VirtualEntity();
-        $entity->setId((int) $qa['id'])
-              ->setLangId((int) $qa['lang_id'])
-              ->setQuestion(Filter::escape($qa['question']))
-              ->setAnswer(Filter::escapeContent($qa['answer']))
-              ->setQuestioner(Filter::escape($qa['questioner']))
-              ->setAnswerer(Filter::escape($qa['answerer']))
-              ->setPublished((bool) $qa['published'])
-              ->setTimestampAsked((int) $qa['timestamp_asked'])
-              ->setTimestampAnswered((int) $qa['timestamp_answered'])
+        $entity->setId($qa['id'], VirtualEntity::FILTER_INT)
+              ->setLangId($qa['lang_id'], VirtualEntity::FILTER_INT)
+              ->setQuestion($qa['question'], VirtualEntity::FILTER_TAGS)
+              ->setAnswer($qa['answer'], VirtualEntity::FILTER_SAFE_TAGS)
+              ->setQuestioner($qa['questioner'], VirtualEntity::FILTER_TAGS)
+              ->setAnswerer($qa['answerer'], VirtualEntity::FILTER_TAGS)
+              ->setPublished($qa['published'], VirtualEntity::FILTER_BOOL)
+              ->setTimestampAsked($qa['timestamp_asked'], VirtualEntity::FILTER_INT)
+              ->setTimestampAnswered($qa['timestamp_answered'], VirtualEntity::FILTER_INT)
               ->setDateAsked(strtotime($qa['timestamp_asked']))
               ->setDateAnswered(strtotime($qa['timestamp_answered']))
-              ->setIP($qa['ip']);
+              ->setIP($qa['ip'], VirtualEntity::FILTER_TAGS);
 
         return $entity;
     }
