@@ -55,16 +55,16 @@ final class QaManager extends AbstractManager implements QaManagerInterface
         $entity = new VirtualEntity();
         $entity->setId($qa['id'], VirtualEntity::FILTER_INT)
               ->setLangId($qa['lang_id'], VirtualEntity::FILTER_INT)
-              ->setQuestion($qa['question'], VirtualEntity::FILTER_TAGS)
+              ->setQuestion($qa['question'], VirtualEntity::FILTER_HTML)
               ->setAnswer($qa['answer'], VirtualEntity::FILTER_SAFE_TAGS)
-              ->setQuestioner($qa['questioner'], VirtualEntity::FILTER_TAGS)
-              ->setAnswerer($qa['answerer'], VirtualEntity::FILTER_TAGS)
+              ->setQuestioner($qa['questioner'], VirtualEntity::FILTER_HTML)
+              ->setAnswerer($qa['answerer'], VirtualEntity::FILTER_HTML)
               ->setPublished($qa['published'], VirtualEntity::FILTER_BOOL)
               ->setTimestampAsked($qa['timestamp_asked'], VirtualEntity::FILTER_INT)
               ->setTimestampAnswered($qa['timestamp_answered'], VirtualEntity::FILTER_INT)
               ->setDateAsked(strtotime($qa['timestamp_asked']))
               ->setDateAnswered(strtotime($qa['timestamp_answered']))
-              ->setIP($qa['ip'], VirtualEntity::FILTER_TAGS);
+              ->setIP($qa['ip'], VirtualEntity::FILTER_HTML);
 
         return $entity;
     }
