@@ -49,7 +49,7 @@ final class Qa extends AbstractController
 
         if ($page !== false) {
             $this->loadSitePlugins();
-            $this->view->getBreadcrumbBag()->addOne($page->getTitle());
+            $this->view->getBreadcrumbBag()->addOne($page->getName());
 
             $qaManager = $this->getModuleService('qaManager');
             $pairs = $qaManager->fetchAllPublishedByPage($pageNumber, $this->getConfig()->getPerPageCount());
