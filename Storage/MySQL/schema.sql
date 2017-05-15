@@ -4,8 +4,8 @@ CREATE TABLE `bono_module_qa` (
 	
 	`id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	`lang_id` INT NOT NULL,
-	`question` TEXT NOT NULL,
-	`answer` TEXT NOT NULL,
+	`question` LONGTEXT NOT NULL,
+	`answer` LONGTEXT NOT NULL,
 	`questioner` varchar(254) NOT NULL,
 	`answerer` varchar(254) NOT NULL,
 	`published` varchar(1) NOT NULL,
