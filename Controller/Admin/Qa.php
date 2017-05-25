@@ -52,6 +52,70 @@ final class Qa extends AbstractController
     }
 
     /**
+     * Returns shared form validator
+     * 
+     * @param array $input
+     * @return \Krystal\Validate\ValidatorChain
+     */
+    private function getValidator(array $input)
+    {
+        return $this->createValidator(array(
+            'input' => array(
+                'source' => $input,
+                'definition' => array(
+                    'question' => array(
+                        'required' => true,
+                        'rules' => array(
+                            'NotEmpty' => array(
+                                'message' => 'Question is required'
+                            ),
+                            'NoTags' => array(
+                                'message' => 'Question can not contain HTML tags'
+                            )
+                        )
+                    ),
+
+                    'questioner' => array(
+                        'required' => true,
+                        'rules' => array(
+                            'NotEmpty' => array(
+                                'message' => 'Questioner is required'
+                            ),
+                            'NoTags' => array(
+                                'message' => 'Questioner can not contain HTML tags'
+                            )
+                        )
+                    ),
+
+                    'answerer' => array(
+                        'required' => true,
+                        'rules' => array(
+                            'NotEmpty' => array(
+                                'message' => 'Answerer is required'
+                            ),
+                            'NoTags' => array(
+                                'message' => 'Answerer can not contain HTML tags'
+                            )
+                        )
+                    ),
+
+                    'answer' => array(
+                        'required' => true,
+                        'rules' => array(
+                            'NotEmpty' => array(
+                                'message' => 'Answer is required'
+                            )
+                        )
+                    ),
+
+                    'date_asked' => new Pattern\DateFormat('m/d/Y'),
+                    'date_answered' => new Pattern\DateFormat('m/d/Y')
+                )
+            )
+        ));
+    }
+
+    /**
      * Renders empty form
      * 
      * @return string
@@ -131,7 +195,26 @@ final class Qa extends AbstractController
      */
     public function deleteAction($id)
     {
-        return $this->invokeRemoval('qaManager', $id);
+        $service = $this->getModuleService('qaManager');
+
+        // Batch removal
+        if ($this->request->hasPost('toDelete')) {
+            $ids = array_keys($this->request->getPost('toDelete'));
+
+            $service->deleteByIds($ids);
+            $this->flashBag->set('success', 'Selected elements have been removed successfully');
+
+        } else {
+            $this->flashBag->set('warning', 'You should select at least one element to remove');
+        }
+
+        // Single removal
+        if (!empty($id)) {
+            $service->deleteById($id);
+            $this->flashBag->set('success', 'Selected element has been removed successfully');
+        }
+
+        return '1';
     }
 
     /**
@@ -144,55 +227,26 @@ final class Qa extends AbstractController
         $input = $this->request->getPost('qa');
         $data = array_merge($input, array('ip' => $this->request->getClientIp()));
 
-        return $this->invokeSave('qaManager', $input['id'], $data, array(
-            'input' => array(
-                'source' => $input,
-                'definition' => array(
-                    'question' => array(
-                        'required' => true,
-                        'rules' => array(
-                            'NotEmpty' => array(
-                                'message' => 'Question is required'
-                            ),
-                            'NoTags' => array(
-                                'message' => 'Question can not contain HTML tags'
-                            )
-                        )
-                    ),
-                    'questioner' => array(
-                        'required' => true,
-                        'rules' => array(
-                            'NotEmpty' => array(
-                                'message' => 'Questioner is required'
-                            ),
-                            'NoTags' => array(
-                                'message' => 'Questioner can not contain HTML tags'
-                            )
-                        )
-                    ),
-                    'answerer' => array(
-                        'required' => true,
-                        'rules' => array(
-                            'NotEmpty' => array(
-                                'message' => 'Answerer is required'
-                            ),
-                            'NoTags' => array(
-                                'message' => 'Answerer can not contain HTML tags'
-                            )
-                        )
-                    ),
-                    'answer' => array(
-                        'required' => true,
-                        'rules' => array(
-                            'NotEmpty' => array(
-                                'message' => 'Answer is required'
-                            )
-                        )
-                    ),
-                    'date_asked' => new Pattern\DateFormat('m/d/Y'),
-                    'date_answered' => new Pattern\DateFormat('m/d/Y')
-                )
-            )
-        ));
+        $formValidator = $this->getValidator($input);
+
+        if ($formValidator->isValid()) {
+            $service = $this->getModuleService('qaManager');
+
+            if (!empty($input['id'])) {
+                if ($service->update($data)) {
+                    $this->flashBag->set('success', 'The element has been updated successfully');
+                    return '1';
+                }
+
+            } else {
+                if ($service->add($data)) {
+                    $this->flashBag->set('success', 'The element has been created successfully');
+                    return $service->getLastId();
+                }
+            }
+
+        } else {
+            return $formValidator->getErrors();
+        }
     }
 }
