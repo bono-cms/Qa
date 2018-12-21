@@ -1,6 +1,9 @@
 <?php
 
+use Krystal\Grid\Grid;
 use Krystal\Form\Element;
+use Cms\View\Icon;
+
 defined('KRYSTAL') or die;
 
 ?>
@@ -31,48 +34,58 @@ defined('KRYSTAL') or die;
 
 <form>
 	<div class="table-responsive">
-		<table class="table table-hover table-bordered table-striped table-condensed">
-			<thead>
-				<tr>
-					<th class="text-center">
-						<?php if (!empty($pairs)): ?>
-						<input type="checkbox" />
-						<?php endif; ?>
-					</th>
-					<th class="text-center"><?php $this->show('#'); ?></th>
-					<th class="text-center"><?php $this->show('Question'); ?></th>
-					<th class="text-center"><?php $this->show('Questioner'); ?></th>
-					<th class="text-center"><?php $this->show('Answerer'); ?></th>
-					<th class="text-center"><?php $this->show('IP'); ?></th>
-					<th class="text-center"><?php $this->show('Published'); ?></th>
-					<th class="text-center"><?php $this->show('Actions'); ?></th>
-				</tr>
-			</thead>
-			
-			<?php if (!empty($pairs)): ?>
-			<tbody>
-				<?php foreach ($pairs as $qa): ?>
-				<tr>
-					<td class="text-center">
-						<input type="checkbox" name="toDelete[<?php echo $qa->getId(); ?>]" />
-					</td>
-					<td class="text-center text-muted"><?php echo $qa->getId(); ?></td>
-					<td class="text-center"><?php echo $qa->getQuestion(); ?></td>
-					<td class="text-center"><?php echo $qa->getQuestioner(); ?></td>
-					<td class="text-center"><?php echo $qa->getAnswerer(); ?></td>
-					<td class="text-center"><?php echo $qa->getIP(); ?></td>
-					<td class="text-center">
-                        <?php echo Element::checkbox(sprintf('published[%s]', $qa->getId()), $qa->getPublished()); ?>
-					</td>
-					<td class="text-center">
-						<a data-button="edit" href="<?php echo $this->url('Qa:Admin:Qa@editAction', $qa->getId()); ?>" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit this pair'); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
-						<a data-button="delete" href="#" data-url="<?php echo $this->url('Qa:Admin:Qa@deleteAction', $qa->getId()); ?>" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Remove this pair'); ?>"><i class="glyphicon glyphicon-remove"></i></a>
-					</td>
-				</tr>
-				<?php endforeach; ?>
-			</tbody>
-			<?php endif; ?>
-		</table>
+        <?= Grid::render($pairs, array(
+            'batch' => true,
+            'pk' => 'id',
+            'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+            'columns' => array(
+                array(
+                    'column' => 'id',
+                    'label' => '#'
+                ),
+
+                array(
+                    'column' => 'question'
+                ),
+
+                array(
+                    'column' => 'questioner'
+                ),
+                
+                array(
+                    'column' => 'answerer'
+                ),
+                
+                array(
+                    'column' => 'ip',
+                    'label' => 'IP'
+                ),
+
+                array(
+                    'column' => 'published',
+                    'value' => function($qa){
+                        return Element::checkbox(sprintf('published[%s]', $qa->getId()), $qa->getPublished());
+                    }
+                )
+            ),
+
+            'actions' => array(
+                'edit' => function($qa){
+                    return Icon::edit(
+                        $this->url('Qa:Admin:Qa@editAction', $qa->getId()),
+                        $this->translate('Edit this pair')
+                    );
+                },
+
+                'remove' => function($qa){
+                    return Icon::remove(
+                        $this->url('Qa:Admin:Qa@deleteAction', $qa->getId()),
+                        $this->translate('Remove this pair')
+                    );
+                }
+            )
+
+        ), $this->translator); ?>        
 		
 		<?php if (empty($pairs)): ?>
 		<div class="center-block">
