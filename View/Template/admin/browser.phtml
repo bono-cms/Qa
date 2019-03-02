@@ -1,6 +1,6 @@
 <?php
 
-use Krystal\Grid\Grid;
+use Krystal\Widget\GridWidget;
 use Krystal\Form\Element;
 use Cms\View\Icon;
 
@@ -34,7 +34,7 @@ defined('KRYSTAL') or die;
 
 <form>
 	<div class="table-responsive">
-        <?= Grid::render($pairs, array(
+        <?= $this->widget(new GridWidget($pairs, array(
             'batch' => true,
             'pk' => 'id',
             'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
@@ -84,8 +84,7 @@ defined('KRYSTAL') or die;
                     );
                 }
             )
-
-        ), $this->translator); ?>        
+        ))); ?>
 		
 		<?php if (empty($pairs)): ?>
 		<div class="center-block">
