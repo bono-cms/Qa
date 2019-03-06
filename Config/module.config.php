@@ -1,9 +1,28 @@
 <?php
 
+/**
+ * Module configuration container
+ */
+
 return array(
- 'name' => 'Qa',
- 'caption' => 'Questions and Answers',
- 'route' => 'Qa:Admin:Qa@gridAction',
- 'order' => 1,
- 'description' => 'QA module allows you to make Questions and Answers page on your site',
+    'name' => 'Qa',
+    'description' => 'QA module allows you to make Questions and Answers page on your site',
+    'menu' => array(
+        'name' => 'Questions and Answers',
+        'icon' => 'fas fa-question-circle',
+        'items' => array(
+            array(
+                'route' => 'Qa:Admin:Qa@gridAction',
+                'name' => 'View all questions and answers'
+            ),
+            array(
+                'route' => 'Qa:Admin:Qa@addAction',
+                'name' => 'Add new pair'
+            ),
+            array(
+                'route' => 'Qa:Admin:Config@indexAction',
+                'name' => 'Configuration'
+            )
+        )
+    )
 );
