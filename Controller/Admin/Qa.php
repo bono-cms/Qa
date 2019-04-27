@@ -127,7 +127,7 @@ final class Qa extends AbstractController
            ->setTimestampAnswered(time())
            ->setPublished(true);
 
-        return $this->createForm($qa, 'Add a pair');
+        return $this->createForm($qa, 'Add new pair');
     }
 
     /**
