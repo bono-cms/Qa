@@ -38,7 +38,7 @@ final class Qa extends AbstractController
      * Displays a front page
      * 
      * @param string $id Page id
-     * @param string $pageNumber Page id
+     * @param string $pageNumber Page number
      * @param string $code Language code
      * @param string $slug Page slug
      * @return string
@@ -77,10 +77,19 @@ final class Qa extends AbstractController
     private function submitAction()
     {
         $input = $this->request->getPost();
-        $formValidator = $this->getValidator($input);
+
+        $formValidator = $this->createValidator(array(
+            'input' => array(
+                'source' => $input,
+                'definition' => array(
+                    'questioner' => new Pattern\Name(),
+                    'question' => new Pattern\Message(),
+                    'captcha' => new Pattern\Captcha($this->captcha)
+                )
+            )
+        ));
 
         if ($formValidator->isValid()) {
-
             $data = array_merge($this->request->getPost(), array('ip' => $this->request->getClientIP()));
             $qaManager = $this->getModuleService('qaManager');
 
@@ -124,25 +133,5 @@ final class Qa extends AbstractController
     private function getConfig()
     {
         return $this->getModuleService('configManager')->getEntity();
-    }
-
-    /**
-     * Returns prepared form validator
-     * 
-     * @param array $input Raw input data
-     * @return \Krystal\Validate\ValidatorChain
-     */
-    private function getValidator(array $input)
-    {
-        return $this->validatorFactory->build(array(
-            'input' => array(
-                'source' => $input,
-                'definition' => array(
-                    'questioner' => new Pattern\Name(),
-                    'question' => new Pattern\Message(),
-                    'captcha' => new Pattern\Captcha($this->captcha)
-                )
-            )
-        ));
     }
 }
