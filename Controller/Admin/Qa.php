@@ -141,7 +141,7 @@ final class Qa extends AbstractController
         $qa = $this->getQaManager()->fetchById($id);
 
         if ($qa !== false) {
-            return $this->createForm($qa, 'Edit the pair');
+            return $this->createForm($qa, $this->translator->translate('Edit the pair "%s"', $qa->getQuestion()));
         } else {
             return false;
         }
